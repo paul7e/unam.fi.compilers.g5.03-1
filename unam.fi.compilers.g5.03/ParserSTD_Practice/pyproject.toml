@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "parserStd"
+version = "0.1.0"
+description = "Un parser y SDT para un lenguaje simple."
+readme = "README.md"
+requires-python = ">=3.8"
+
+# ¡Importante! Aquí le dices a Python qué necesita tu proyecto
+dependencies = [
+    "lark"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]]
