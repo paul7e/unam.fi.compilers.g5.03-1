@@ -2,14 +2,11 @@ from lark import Lark, Transformer, exceptions
 import sys 
 
 grammar = """
-    ?start: sum
           | assign_var
-          | declaration  // 3. Añadimos la nueva regla de declaración
+          | declaration  
 
-    // 3. Nueva regla para "int x = ---"
     ?declaration: "int" NAME "=" sum -> declare_var
 
-    // Regla de asignación 
     ?assign_var: NAME "=" sum -> assign_var
 
     ?sum: product
@@ -20,19 +17,16 @@ grammar = """
         | product "*" atom  -> mul
         | product "/" atom  -> div
 
-    // 2. 'atom' ahora también acepta un STRING
     ?atom: NUMBER           -> number
          | "-" atom         -> neg
          | "(" sum ")"
          | STRING           -> string  
 
-    // --- Definiciones de Terminales ---
     %import common.CNAME -> NAME
     %import common.NUMBER
     %import common.WS
     %ignore WS
     
-    // 1. Definicion de que es un STRING
     STRING: /"[^"]*"/ | /'[^']*'/
 """
 #Implementación del SDT 
@@ -59,7 +53,7 @@ class verifSTD(Transformer):
         return items[0] / items[1]
     
     def string(self, items):
-        return items[0][1:-1] #Maneja el token string. Quita las comillas.
+        return items[0][1:-1] #Maneja el token string. Quita comillas
 
     def assign_var(self, items):
         #Para asignaciones simples (x = ...)
